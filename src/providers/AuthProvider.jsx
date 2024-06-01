@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import { createContext, useEffect, useState } from "react";
 import {
 	GoogleAuthProvider,
@@ -43,9 +43,6 @@ const AuthProvider = ({ children }) => {
 
 	const logOut = async () => {
 		setLoading(true);
-		await axios.get(`${import.meta.env.VITE_API_URL}/logout`, {
-			withCredentials: true,
-		});
 		return signOut(auth);
 	};
 
@@ -61,7 +58,7 @@ const AuthProvider = ({ children }) => {
 			const userEmail = currentUser?.email || user?.email;
 			const loggedUser = { email: userEmail };
 			setUser(currentUser);
-			console.log("current user", currentUser);
+			// console.log("current user", currentUser);
 			setLoading(false);
 			// if User Exists
 			if (currentUser) {
@@ -70,7 +67,7 @@ const AuthProvider = ({ children }) => {
 						withCredentials: true,
 					})
 					.then((res) => {
-						console.log("token response", res.data);
+						// console.log("token response", res.data);
 					});
 			} else {
 				axios
@@ -78,7 +75,7 @@ const AuthProvider = ({ children }) => {
 						withCredentials: true,
 					})
 					.then((res) => {
-						console.log(res.data);
+						// console.log(res.data);
 					});
 			}
 		});
@@ -107,5 +104,5 @@ const AuthProvider = ({ children }) => {
 export default AuthProvider;
 
 AuthProvider.propTypes = {
-    children: PropTypes.node,
-}
+	children: PropTypes.node,
+};
