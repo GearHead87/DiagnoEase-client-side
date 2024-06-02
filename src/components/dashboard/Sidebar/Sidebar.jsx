@@ -5,7 +5,6 @@ import UserMenu from "./Menu/UserMenu";
 
 const Sidebar = () => {
 	const { role, isLoading } = useRole();
-	console.log(role);
 	return (
 		<div>
 			<button

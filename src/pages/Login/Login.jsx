@@ -1,26 +1,25 @@
 import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 const Login = () => {
 	const { register, handleSubmit } = useForm();
 	const { signIn } = useAuth();
-	const navigate = useNavigate()
-	const location = useLocation()
-	const from = location?.state || '/'
+	const navigate = useNavigate();
+	const location = useLocation();
+	const from = location?.state || "/";
 
 	const onSubmit = async (data) => {
 		const email = data.email;
 		const password = data.password;
-		try{
-			const result = await signIn(email, password)
+		try {
+			const result = await signIn(email, password);
 			console.log(result);
-			navigate(from)
-			toast.success(`Welcome ${result.user.displayName}`)
-		}
-		catch(err){
-			console.log(err)
+			navigate(from);
+			toast.success(`Welcome ${result.user.displayName}`);
+		} catch (err) {
+			console.log(err);
 		}
 	};
 	return (
@@ -62,8 +61,17 @@ const Login = () => {
 					type="submit"
 					className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
 				>
-					Submit
+					Login
 				</button>
+				<div className="text-sm font-medium text-gray-500 dark:text-gray-300 mt-4">
+					Not registered?{" "}
+					<Link
+						to={"/register"}
+						className="text-blue-700 hover:underline dark:text-blue-500"
+					>
+						Create account
+					</Link>
+				</div>
 			</form>
 		</div>
 	);

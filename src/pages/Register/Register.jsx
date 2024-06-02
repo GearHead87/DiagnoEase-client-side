@@ -4,6 +4,7 @@ import { bloodGroup } from "./bloodGroupData";
 import DistrictAndUpazila from "./DistrictAndUpazila";
 import { imageUpload } from "../../api/utils";
 import useAxiosCommon from "../../hooks/useAxiosCommon";
+import { Link } from "react-router-dom";
 const Register = () => {
 	const { register, handleSubmit } = useForm();
 	const { createUser, updateUserProfile } = useAuth();
@@ -38,7 +39,7 @@ const Register = () => {
 			console.log(userData);
 			await updateUserProfile(name, avatar);
 			const { data } = await axiosCommon.post("/user", userData);
-            console.log(data);
+			console.log(data);
 		} catch (err) {
 			console.log(err);
 		}
@@ -190,6 +191,15 @@ const Register = () => {
 				>
 					Register
 				</button>
+				<div className="text-sm font-medium text-gray-500 dark:text-gray-300 mt-4">
+					Already Have an Account?{" "}
+					<Link
+						to={"/login"}
+						className="text-blue-700 hover:underline dark:text-blue-500"
+					>
+						Login
+					</Link>
+				</div>
 			</form>
 		</div>
 	);
