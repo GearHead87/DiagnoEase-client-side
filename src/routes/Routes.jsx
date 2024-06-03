@@ -15,6 +15,8 @@ import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
 import AddBanner from "../pages/Dashboard/Admin/AddBanner";
 import AllBanners from "../pages/Dashboard/Admin/AllBanners";
 import AdminStatistics from "../pages/Dashboard/Admin/AdminStatistics";
+import Tests from "../pages/Common/Tests/Tests";
+import TestDetails from "../pages/Common/Tests/TestDetails";
 
 export const router = createBrowserRouter([
 	{
@@ -32,6 +34,14 @@ export const router = createBrowserRouter([
 			{
 				path: "register",
 				element: <Register></Register>,
+			},
+			{
+				path: "tests",
+				element: <Tests></Tests>,
+			},
+			{
+				path: "test/:id",
+				element: <TestDetails></TestDetails>,
 			},
 		],
 	},

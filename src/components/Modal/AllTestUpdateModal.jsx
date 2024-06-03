@@ -8,43 +8,56 @@ import {
 	DialogPanel,
 	DialogTitle,
 } from "@headlessui/react";
-import { Fragment} from "react";
-import { bloodGroup } from "../../pages/Register/bloodGroupData";
-import LoadingSpinner from "../Shared/LoadingSpinner";
+import DatePicker from "react-datepicker";
+import { Fragment, useState } from "react";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
-import UserDistrictAndUpazila from "../../hooks/UserDistrictAndUpazila";
 import toast from "react-hot-toast";
+import { imageUpload } from "../../api/utils";
+import { TbFidgetSpinner } from "react-icons/tb";
 
-
-
-const UserUpdateModal = ({ setIsEditModalOpen, isOpen, user, refetch }) => {
+const AllTestUpdateModal = ({ setIsEditModalOpen, isOpen, test, refetch }) => {
 	const axiosSecure = useAxiosSecure();
-	const { districts, upazilas, isLoading } = UserDistrictAndUpazila();
-	const { register, handleSubmit } = useForm();
+	const [startDate, setStartDate] = useState(new Date(test.date));
+	const [loading, setLoading] = useState(false);
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+		reset,
+	} = useForm();
+
 	const onSubmit = async (data) => {
-		const status = data.status;
-		const role = data.role;
-		let userData = {
-			...user,
-			status,
-			role,
+		setLoading(true);
+		let testData = {
+			name: data.testName,
+			image: test.image,
+			description: data.testDescription,
+			price: parseInt(data.testPrice),
+			date: startDate,
+			slots: parseInt(data.testSlots),
 		};
-        delete userData._id;
+		delete testData._id;
+		if (data.testImage[0]) {
+			const newImage = await imageUpload(data.testImage[0]);
+			testData.image = newImage;
+		}
 		try {
-			const { data } = await axiosSecure.patch(`/user/${user?._id}`, userData);
-			console.log(data);
-            if(data.modifiedCount>0){
-                refetch();
-                toast.success("Successfully Updated")
-            }
+			const { data: result } = await axiosSecure.patch(
+				`/test/${test._id}`,
+				testData
+			);
+			setLoading(false);
+			if (result.modifiedCount > 0) {
+				toast.success("Test infomation Updated");
+				refetch();
+				setIsEditModalOpen(false);
+			}
+			console.log(result);
 		} catch (err) {
+			setLoading(false);
 			console.log(err);
 		}
 	};
-
-	if (isLoading) {
-		return <LoadingSpinner />;
-	}
 
 	return (
 		<Transition appear show={isOpen} as={Fragment}>
@@ -91,177 +104,141 @@ const UserUpdateModal = ({ setIsEditModalOpen, isOpen, user, refetch }) => {
 									>
 										<div className="mb-5">
 											<label
-												htmlFor="email"
-												className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-											>
-												User email
-											</label>
-											<input
-												{...register("email")}
-												type="email"
-												id="email"
-												disabled
-												defaultValue={user.email}
-												className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-												placeholder="name@flowbite.com"
-												required
-											/>
-										</div>
-										<div className="mb-5">
-											<label
 												htmlFor="name"
 												className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 											>
-												User name
+												Test name
 											</label>
 											<input
-												// {...register("name")}
+												{...register("testName", {
+													required: "Test name is required",
+												})}
 												type="text"
 												id="name"
-												disabled
-												value={user.name}
+												defaultValue={test.name}
 												className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 												placeholder="name"
-												required
 											/>
+											{errors.testName && (
+												<p className="text-red-500 text-xs mt-1">
+													{errors.testName.message}
+												</p>
+											)}
 										</div>
-										{/* <div className="mb-5">
+										<div className="mb-5">
 											<label
 												className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 												htmlFor="user_avatar"
 											>
-												Upload file
+												Upload Image
 											</label>
 											<input
-												{...register("image")}
-                                                disabled
+												{...register("testImage")}
 												className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
 												aria-describedby="user_avatar_help"
-												id="user_avatar"
+												id="test-image"
 												type="file"
 											></input>
-										</div> */}
+											{errors.TestImage && (
+												<p className="text-red-500 text-xs mt-1">
+													{errors.TestImage.message}
+												</p>
+											)}
+										</div>
+
 										<div className="mb-5">
 											<label
-												htmlFor="user_avatar"
+												htmlFor="description"
 												className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 											>
-												User Image URL
+												Test Description
 											</label>
 											<input
-												// {...register("image")}
+												{...register("testDescription", {
+													required: "Test description is required",
+												})}
 												type="text"
-												id="avatar"
-												disabled
-												value={user.avatar}
+												id="test-description"
+												defaultValue={test.description}
 												className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-												placeholder="Image"
-												required
+												placeholder="description"
+											/>
+											{errors.testDescription && (
+												<p className="text-red-500 text-xs mt-1">
+													{errors.testDescription.message}
+												</p>
+											)}
+										</div>
+										<div className="mb-5">
+											<label
+												htmlFor="price"
+												className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+											>
+												Test Price
+											</label>
+											<input
+												{...register("testPrice", {
+													required: "Test price is required",
+												})}
+												type="number"
+												id="test-price"
+												defaultValue={test.price}
+												className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+												placeholder="Price"
+											/>
+											{errors.testPrice && (
+												<p className="text-red-500 text-xs mt-1">
+													{errors.testPrice.message}
+												</p>
+											)}
+										</div>
+										<div className="mb-5">
+											<label
+												htmlFor="price"
+												className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+											>
+												Test Date
+											</label>
+											<DatePicker
+												className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+												selected={startDate}
+												onChange={(date) => setStartDate(date)}
 											/>
 										</div>
 										<div className="mb-5">
 											<label
-												htmlFor="blood-group"
+												htmlFor="slots"
 												className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 											>
-												User blood group
+												Test Slots
 											</label>
-											<select
-												// {...register("bloodGroup")}
-												id="blood-group"
-												disabled
-												defaultValue={user?.bloodGroup}
+											<input
+												{...register("testSlots", {
+													required: "Slots are required",
+												})}
+												type="number"
+												id="test-slots"
+												defaultValue={test.slots}
 												className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-											>
-												{bloodGroup.map((bg) => (
-													<option key={bg.id} value={bg.type}>
-														{bg.type}
-													</option>
-												))}
-											</select>
-										</div>
-										<div className="mb-5">
-											<label
-												htmlFor="district"
-												className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-											>
-												User District
-											</label>
-											<select
-												// {...register("district")}
-												id="district"
-												disabled
-												defaultValue={user?.district}
-												className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-											>
-												{districts.map((district) => (
-													<option key={district.id} value={district.name}>
-														{district.name}
-													</option>
-												))}
-											</select>
-										</div>
-										<div className="mb-5">
-											<label
-												htmlFor="upazila"
-												className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-											>
-												User Upazila
-											</label>
-											<select
-												// {...register("upazila")}
-												id="upazila"
-												disabled
-												defaultValue={user?.upazila}
-												className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-											>
-												{upazilas.map((upzila) => (
-													<option key={upzila.id} value={upzila.name}>
-														{upzila.name}
-													</option>
-												))}
-											</select>
-										</div>
-										<div className="mb-5">
-											<label
-												htmlFor="upazila"
-												className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-											>
-												User Status
-											</label>
-											<select
-												{...register("status")}
-												id="status"
-												defaultValue={user.status}
-												className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-											>
-												<option value="active">Active</option>
-												<option value="blocked">Blocked</option>
-											</select>
-										</div>
-										<div className="mb-5">
-											<label
-												htmlFor="role"
-												className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-											>
-												User Role
-											</label>
-											<select
-												{...register("role")}
-												id="role"
-												defaultValue={user.role}
-												className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-											>
-												<option value="user">User</option>
-												<option value="admin">admin</option>
-											</select>
+												placeholder="slots"
+											/>
+											{errors.testSlots && (
+												<p className="text-red-500 text-xs mt-1">
+													{errors.testSlots.message}
+												</p>
+											)}
 										</div>
 
 										<button
 											type="submit"
+											disabled={loading}
 											className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
 										>
-											Update
+											{loading ? (
+												<TbFidgetSpinner className="animate-spin m-auto" />
+											) : (
+												"Update Test"
+											)}
 										</button>
 									</form>
 								</div>
@@ -284,9 +261,11 @@ const UserUpdateModal = ({ setIsEditModalOpen, isOpen, user, refetch }) => {
 	);
 };
 
-UserUpdateModal.propTypes = {
+AllTestUpdateModal.propTypes = {
 	setIsEditModalOpen: PropTypes.func,
 	isOpen: PropTypes.bool,
+	test: PropTypes.object,
+	refetch: PropTypes.func,
 };
 
-export default UserUpdateModal;
+export default AllTestUpdateModal;

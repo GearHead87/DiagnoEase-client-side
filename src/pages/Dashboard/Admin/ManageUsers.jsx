@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
-import UserUpdateModal from "../../../components/Modal/UserUpdateModal";
 import UserUpdateModalRow from "../../../components/dashboard/Sidebar/TableRows/UserUpdateModalRow";
 
 const ManageUsers = () => {

@@ -5,17 +5,21 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useState } from "react";
 import { imageUpload } from "../../../api/utils";
 import toast from "react-hot-toast";
+import { TbFidgetSpinner } from "react-icons/tb";
 
 const AddATest = () => {
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
+		reset,
 	} = useForm();
 	const [startDate, setStartDate] = useState(new Date());
 	const axiosSecure = useAxiosSecure();
+	const [isLoading, setIsLoading] = useState(false);
 	const onSubmit = async (data) => {
 		try {
+			setIsLoading(true);
 			const image = data.testImage[0];
 			const testImage = await imageUpload(image);
 			const newTest = {
@@ -28,9 +32,11 @@ const AddATest = () => {
 			};
 			console.log(newTest);
 			const { data: result } = await axiosSecure.post("test", newTest);
-            if(result.insertedId){
-                toast.success("Test Uploaded Successfully")
-            }
+			if (result.insertedId) {
+				toast.success("Test Uploaded Successfully");
+				setIsLoading(false);
+				reset();
+			}
 		} catch (err) {
 			console.log(err);
 		}
@@ -157,10 +163,15 @@ const AddATest = () => {
 				</div>
 
 				<button
+					disabled={isLoading}
 					type="submit"
 					className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
 				>
-					Register
+					{isLoading ? (
+						<TbFidgetSpinner className="animate-spin m-auto" />
+					) : (
+						"Upload Test"
+					)}
 				</button>
 			</form>
 		</div>
