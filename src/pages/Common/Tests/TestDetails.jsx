@@ -1,9 +1,21 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import useAuth from "../../../hooks/useAuth";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import BookNowFormModal from "../../../components/Modal/BookNowFormModal";
+import { useState } from "react";
+import { Description, Field, Input, Label } from "@headlessui/react";
+import clsx from "clsx";
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 const TestDetails = () => {
 	const axiosSecure = useAxiosSecure();
+	const [isOpen, setIsOpen] = useState(false);
+	const [discountedPrice, setDiscountedPrice] = useState(0);
+	const { user: currentUser } = useAuth();
 	const { id } = useParams();
 	const {
 		data: test = {},
@@ -16,7 +28,24 @@ const TestDetails = () => {
 			return data;
 		},
 	});
-	console.log(test);
+
+	const closeModal = () => {
+		setIsOpen(false);
+	};
+	const handleCoupon = (e) => {
+		e.preventDefault();
+		const form = e.target;
+		const coupon = form.couponCode.value;
+		const discount_percentage = 20 / 100;
+		const original_price = test.price;
+		if (coupon === "NEW20") {
+			const discounted_price = original_price * (1 - discount_percentage);
+			setDiscountedPrice(discounted_price);
+			test.price = discounted_price;
+		}
+        console.log(test)
+	};
+
 	return (
 		<div>
 			<div className="flex flex-col md:flex-row bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
@@ -40,16 +69,65 @@ const TestDetails = () => {
 						</p>
 						<div className="my-4">
 							<span className="bg-blue-100 text-blue-800 text-base font-semibold px-2.5 py-1 rounded dark:bg-blue-200 dark:text-blue-800">
-								Price: ${test.price}
+								{discountedPrice
+									? `Discounted Price: ${discountedPrice}`
+									: `Price: ${test.price}`}
 							</span>
 							<span className="bg-red-100 text-red-800 text-base font-semibold px-2.5 py-1 rounded dark:bg-red-200 dark:text-red-800 ml-4">
 								Available Slots: {test.slots}
 							</span>
 						</div>
+						<div>
+							<form
+								onSubmit={handleCoupon}
+								className="w-full max-w-md flex items-center "
+							>
+								<Field>
+									<Label className="text-base font-medium ">Apply Coupon</Label>
+									{/* <Description className="text-sm/6 text-white/50">
+										Use your real name so people will recognize you.
+									</Description> */}
+									<Input
+										className={clsx(
+											"mt-3 block w-full rounded-lg border-none bg-blue-100 py-1.5 px-3 text-sm/6 text-black",
+											"focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-black/25"
+										)}
+										id="couponCode"
+										placeholder="Coupon Code"
+									/>
+								</Field>
+								<button className="inline-flex items-center mt-8 ml-4 px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+									Apply Now
+								</button>
+							</form>
+						</div>
 					</div>
 					{/* Bottom Button */}
 					<div>
-						<button className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+						<Elements stripe={stripePromise}>
+							{/* checkout form */}
+							<BookNowFormModal
+								bookingInfo={{
+									testData: {
+										...test,
+									},
+									user: {
+										name: currentUser.displayName,
+										email: currentUser.email,
+									},
+									result: "",
+									status: "pending",
+									date: Date.now(),
+								}}
+								isOpen={isOpen}
+								closeModal={closeModal}
+								refetch={refetch}
+							/>
+						</Elements>
+						<button
+							onClick={() => setIsOpen(true)}
+							className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+						>
 							Book Now
 							<svg
 								className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
