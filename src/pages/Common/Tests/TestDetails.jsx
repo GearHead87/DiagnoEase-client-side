@@ -8,6 +8,7 @@ import BookNowFormModal from "../../../components/Modal/BookNowFormModal";
 import { useState } from "react";
 import { Description, Field, Input, Label } from "@headlessui/react";
 import clsx from "clsx";
+import toast from "react-hot-toast";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
@@ -43,7 +44,7 @@ const TestDetails = () => {
 			setDiscountedPrice(discounted_price);
 			test.price = discounted_price;
 		}
-        console.log(test)
+		console.log(test);
 	};
 
 	return (
@@ -96,7 +97,11 @@ const TestDetails = () => {
 										placeholder="Coupon Code"
 									/>
 								</Field>
-								<button className="inline-flex items-center mt-8 ml-4 px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+								<button
+									className={`inline-flex items-center mt-8 ml-4 px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ${
+										test.slots < 1 ? "opacity-50 cursor-not-allowed" : ""
+									}`}
+								>
 									Apply Now
 								</button>
 							</form>
@@ -125,8 +130,16 @@ const TestDetails = () => {
 							/>
 						</Elements>
 						<button
-							onClick={() => setIsOpen(true)}
-							className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+							onClick={() => {
+								if (test.slots < 1) {
+									return toast.error("No slots Available");
+								}
+								setIsOpen(true);
+							}}
+							disabled={test.slots < 1 ? true : false}
+							className={`inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ${
+								test.slots < 1 ? "opacity-50 cursor-not-allowed" : ""
+							}`}
 						>
 							Book Now
 							<svg

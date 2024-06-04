@@ -17,6 +17,7 @@ import AllBanners from "../pages/Dashboard/Admin/AllBanners";
 import AdminStatistics from "../pages/Dashboard/Admin/AdminStatistics";
 import Tests from "../pages/Common/Tests/Tests";
 import TestDetails from "../pages/Common/Tests/TestDetails";
+import TestReservations from "../pages/Dashboard/Admin/TestReservations";
 
 export const router = createBrowserRouter([
 	{
@@ -92,6 +93,14 @@ export const router = createBrowserRouter([
 				element: (
 					<AdminRoute>
 						<AllReservations></AllReservations>
+					</AdminRoute>
+				),
+			},
+			{
+				path: "all-reservations/:id",
+				element: (
+					<AdminRoute>
+						<TestReservations></TestReservations>
 					</AdminRoute>
 				),
 			},

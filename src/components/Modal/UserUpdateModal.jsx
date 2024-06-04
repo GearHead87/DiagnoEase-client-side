@@ -81,7 +81,7 @@ const UserUpdateModal = ({ setIsEditModalOpen, isOpen, user, refetch }) => {
 									as="h3"
 									className="text-lg font-medium text-center leading-6 text-gray-900"
 								>
-									Update Room Info
+									Update User Info
 								</DialogTitle>
 								<div className="mt-2 w-full">
 									{/* Update room form */}

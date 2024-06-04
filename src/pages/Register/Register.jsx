@@ -5,10 +5,13 @@ import DistrictAndUpazila from "./DistrictAndUpazila";
 import { imageUpload } from "../../api/utils";
 import useAxiosCommon from "../../hooks/useAxiosCommon";
 import { Link } from "react-router-dom";
+import UserDistrictAndUpazila from "../../hooks/UserDistrictAndUpazila";
+import LoadingSpinner from "../../components/Shared/LoadingSpinner";
 const Register = () => {
 	const { register, handleSubmit } = useForm();
 	const { createUser, updateUserProfile } = useAuth();
 	const { districts, upazilas, isLoading } = DistrictAndUpazila();
+	UserDistrictAndUpazila();
 	const axiosCommon = useAxiosCommon();
 
 	const onSubmit = async (data) => {
@@ -45,7 +48,7 @@ const Register = () => {
 		}
 	};
 	if (isLoading) {
-		return <p>loadding.......</p>;
+		return <LoadingSpinner />;
 	}
 	return (
 		<div>
