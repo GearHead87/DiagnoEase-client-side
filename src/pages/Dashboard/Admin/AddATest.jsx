@@ -31,13 +31,14 @@ const AddATest = () => {
 				slots: parseInt(data.testSlots),
 			};
 			console.log(newTest);
-			const { data: result } = await axiosSecure.post("test", newTest);
+			const { data: result } = await axiosSecure.post("/test", newTest);
 			if (result.insertedId) {
 				toast.success("Test Uploaded Successfully");
 				setIsLoading(false);
 				reset();
 			}
 		} catch (err) {
+            setIsLoading(false)
 			console.log(err);
 		}
 	};

@@ -2,9 +2,17 @@ import { Link } from "react-router-dom";
 import useRole from "../../../hooks/UseRole";
 import AdminMenu from "./Menu/AdminMenu";
 import UserMenu from "./Menu/UserMenu";
+import LoadingSpinner from "../../Shared/LoadingSpinner";
 
 const Sidebar = () => {
 	const { role, isLoading } = useRole();
+	if (isLoading) {
+		return (
+			<div className="flex items-center justify-center">
+				<LoadingSpinner></LoadingSpinner>
+			</div>
+		);
+	}
 	return (
 		<div>
 			<button
