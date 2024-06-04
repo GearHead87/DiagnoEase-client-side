@@ -57,7 +57,10 @@ const TestReservationsRow = ({ app, refetch }) => {
 				<td className="px-6 py-4">
 					<button
 						onClick={() => setIsOpen(true)}
-						className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+						disabled={app.status === "delivered" ? true : false}
+						className={`block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ${
+							app.status === "delivered" ? "opacity-50 cursor-not-allowed" : ""
+						}`}
 						type="button"
 					>
 						Submit Report
@@ -73,7 +76,10 @@ const TestReservationsRow = ({ app, refetch }) => {
 				<td className="px-6 py-4 text-right">
 					<button
 						onClick={() => handleTestDelete(app._id)}
-						className="block text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+						disabled={app.status === "delivered" ? true : false}
+						className={`block text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800 ${
+							app.status === "delivered" ? "opacity-50 cursor-not-allowed" : ""
+						}`}
 						type="button"
 					>
 						Cancle
