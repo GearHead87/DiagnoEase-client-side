@@ -6,6 +6,7 @@ import { useState } from "react";
 import { imageUpload } from "../../../api/utils";
 import toast from "react-hot-toast";
 import { TbFidgetSpinner } from "react-icons/tb";
+import { useNavigate } from "react-router-dom";
 
 const AddATest = () => {
 	const {
@@ -17,6 +18,7 @@ const AddATest = () => {
 	const [startDate, setStartDate] = useState(new Date());
 	const axiosSecure = useAxiosSecure();
 	const [isLoading, setIsLoading] = useState(false);
+	const navigate = useNavigate();
 	const onSubmit = async (data) => {
 		try {
 			setIsLoading(true);
@@ -35,10 +37,11 @@ const AddATest = () => {
 			if (result.insertedId) {
 				toast.success("Test Uploaded Successfully");
 				setIsLoading(false);
+				navigate("/dashboard/all-tests");
 				reset();
 			}
 		} catch (err) {
-            setIsLoading(false)
+			setIsLoading(false);
 			console.log(err);
 		}
 	};

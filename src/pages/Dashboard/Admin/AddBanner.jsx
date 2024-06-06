@@ -4,9 +4,11 @@ import { useState } from "react";
 import { TbFidgetSpinner } from "react-icons/tb";
 import { imageUpload } from "../../../api/utils";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const AddBanner = () => {
 	const axiosSecure = useAxiosSecure();
+	const navigate = useNavigate();
 	const [isLoading, setIsLoading] = useState(false);
 	const {
 		register,
@@ -32,6 +34,7 @@ const AddBanner = () => {
 			if (result.insertedId) {
 				toast.success("Banner Uploaded Successfully");
 				setIsLoading(false);
+				navigate('/dashboard/all-banners')
 				reset();
 			}
 		} catch (err) {

@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { Link } from "react-router-dom";
+import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 
 const AllReservations = () => {
 	const axiosSecure = useAxiosSecure();
@@ -15,6 +16,9 @@ const AllReservations = () => {
 			return data;
 		},
 	});
+	if (isLoading) {
+		<LoadingSpinner />;
+	}
 	return (
 		<div>
 			<div className="relative overflow-x-auto shadow-md sm:rounded-lg">
