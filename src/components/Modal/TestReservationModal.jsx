@@ -23,7 +23,7 @@ const TestReservationModal = ({ setIsEditModalOpen, isOpen, app, refetch }) => {
 		console.log(report, testResult);
 		try {
 			const { data: result } = await axiosSecure.patch(
-				`/report-submit/${app._id}`
+				`/report-submit/${app.user.email}/${app._id}`
 			);
 			console.log(result);
 			if (result.modifiedCount > 0) {

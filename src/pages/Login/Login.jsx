@@ -19,6 +19,7 @@ const Login = () => {
 			navigate(from);
 			toast.success(`Welcome ${result.user.displayName}`);
 		} catch (err) {
+			toast.error(err.message);
 			console.log(err);
 		}
 	};
