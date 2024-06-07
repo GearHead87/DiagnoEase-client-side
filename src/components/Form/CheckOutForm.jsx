@@ -93,7 +93,8 @@ const CheckOutForm = ({ closeModal, bookingInfo, refetch }) => {
 			const paymentInfo = {
 				...bookingInfo,
 				transactionId: paymentIntent.id,
-				date: new Date(),
+				appointmentBookingDate: new Date(),
+				resultDeliveryDate: "",
 			};
 			console.log(paymentInfo);
 			try {
@@ -162,9 +163,9 @@ const CheckOutForm = ({ closeModal, bookingInfo, refetch }) => {
 };
 
 CheckOutForm.propTypes = {
-    bookingInfo: PropTypes.object,
-    closeModal: PropTypes.func,
-    refetch: PropTypes.func,
-  }
+	bookingInfo: PropTypes.object,
+	closeModal: PropTypes.func,
+	refetch: PropTypes.func,
+};
 
 export default CheckOutForm;

@@ -47,12 +47,98 @@ export const handleUserTestReportPdf = (test) => {
 	// doc.text(`${test.testData.description}`, 20, 100);
 	doc.text(`Price: $ ${test.testData.price}`, 20, 100);
 	doc.text(`Transaction ID: ${test.transactionId}`, 20, 105);
-	doc.text(`Report:`, 20, 110);
-	doc.text(`${test.result}`, 25, 115);
+	doc.text(
+		`Report delivery date: ${new Date(
+			test.resultDeliveryDate
+		).toLocaleDateString()}`
+	);
+	doc.text(`Report:`, 20, 115);
+	doc.text(`${test.result}`, 25, 120);
 	// doc.save(`User Test Report`);
 
 	// doc.autoPrint();
 	// Open PDF in new window
+	const string = doc.output("bloburl");
+	const iframe = `<iframe width='100%' height='100%' src='${string}'></iframe>`;
+	const x = window.open();
+	x.document.open();
+	x.document.write(iframe);
+	x.document.close();
+};
+
+export const handleUserAppointmentsPdf = (data, user) => {
+	const doc = new jsPDF();
+	// Adding the text
+	doc.setFontSize(25);
+	doc.text("DiagnoEase", 20, 20);
+
+	doc.setFontSize(12);
+	doc.text("Accurate | Caring | Instant", 20, 27);
+
+	doc.setFontSize(10);
+	doc.text("105-108, SMART VISION COMPLEX, HEALTHCARE ROAD,", 20, 35);
+	doc.text("OPPOSITE HEALTHCARE COMPLEX, MUMBAI - 689578", 20, 41);
+
+	// Adding contact information
+	doc.setFontSize(10);
+	doc.text(" 9123456789 / 8912345678", 150, 20);
+	doc.text(" smartpatholab@gmail.com", 150, 25);
+
+	// Break Line
+	doc.setLineWidth(1);
+	doc.line(5, 45, 205, 45);
+
+	// User Test Info
+	doc.setFontSize(15);
+	doc.text(`${user.name}`, 20, 55);
+	doc.setFontSize(12);
+	doc.text(`Blood Group: ${user.bloodGroup}`, 20, 60);
+	doc.text(`Address: ${user.upazila}, ${user.district}`, 20, 65);
+
+	// Break Line
+	doc.setLineWidth(1);
+	doc.line(5, 70, 205, 70);
+
+	// Appointments Report Heading
+	doc.setFontSize(20);
+	doc.text("Appointments ", 110, 80, { align: "center" });
+	doc.setLineWidth(0.5);
+	doc.line(10, 85, 195, 85);
+
+	//
+	let y = 90;
+	const yAxis = () => {
+		y += 5;
+		return y;
+	};
+	doc.setFontSize(12);
+	data.map((app) => {
+		doc.text(`${app.testData.name}`, 20, yAxis());
+		doc.text(`Price: ${app.testData.price}`, 20, yAxis());
+		doc.text(`Transaction ID: ${app.transactionId}`, 20, yAxis());
+		doc.text(`Test Status: ${app.status}`, 20, yAxis());
+		if (app.status === "delivered") {
+			doc.text(
+				`Delivery Date: ${new Date(
+					app.resultDeliveryDate
+				).toLocaleDateString()}`,
+				20,
+				yAxis()
+			);
+			doc.text(`Report: ${app.result}`, 20, yAxis());
+			yAxis();
+		} else {
+			doc.text(
+				`Appointment Date: ${new Date(app.testData.date).toLocaleDateString()}`,
+				20,
+				yAxis()
+			);
+
+		}
+		doc.setLineWidth(0.5);
+		doc.line(20, yAxis(), 185, y);
+	});
+
 	const string = doc.output("bloburl");
 	const iframe = `<iframe width='100%' height='100%' src='${string}'></iframe>`;
 	const x = window.open();

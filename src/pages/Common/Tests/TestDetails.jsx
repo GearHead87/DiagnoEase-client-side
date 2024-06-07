@@ -6,7 +6,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import BookNowFormModal from "../../../components/Modal/BookNowFormModal";
 import { useState } from "react";
-import { Description, Field, Input, Label } from "@headlessui/react";
+import { Field, Input, Label } from "@headlessui/react";
 import clsx from "clsx";
 import toast from "react-hot-toast";
 
@@ -21,7 +21,7 @@ const TestDetails = () => {
 
 	const {
 		data: test = {},
-		isLoading,
+		// isLoading,
 		refetch,
 	} = useQuery({
 		queryKey: ["test", id],
@@ -126,11 +126,10 @@ const TestDetails = () => {
 										...test,
 									},
 									user: {
-										...user
+										...user,
 									},
 									result: "",
 									status: "pending",
-									date: Date.now(),
 								}}
 								isOpen={isOpen}
 								closeModal={closeModal}

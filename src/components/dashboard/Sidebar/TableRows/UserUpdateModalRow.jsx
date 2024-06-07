@@ -1,14 +1,28 @@
 import { useState } from "react";
 import UserUpdateModal from "../../../Modal/UserUpdateModal";
+import PropTypes from "prop-types";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
+import { handleUserAppointmentsPdf } from "../../PDF/PdfPrintUtils";
 
-const UserUpdateModalRow = ({user, refetch}) => {
-    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-    // console.log(user)
+const UserUpdateModalRow = ({ user, refetch }) => {
+	const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+	const axiosSecure = useAxiosSecure();
+
+	const { data, isLoading } = useQuery({
+		queryKey: ["user-appointments", user.email],
+		queryFn: async () => {
+			const { data } = await axiosSecure(`/user-appointments/${user.email}`);
+			return data;
+		},
+	});
+	const handleDownloadDetails = () => {
+		console.log(data);
+		handleUserAppointmentsPdf(data, user);
+	};
 	return (
 		<>
-			<tr
-				className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-			>
+			<tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
 				<th
 					scope="row"
 					className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
@@ -33,16 +47,22 @@ const UserUpdateModalRow = ({user, refetch}) => {
 					/>
 				</td>
 				<td className="px-6 py-4 text-right">
-					<a
-						href="#"
+					<button
+						disabled={isLoading}
+						onClick={handleDownloadDetails}
 						className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
 					>
-						Download Details
-					</a>
+						{isLoading ? "Loading...." : "Download Details"}
+					</button>
 				</td>
 			</tr>
 		</>
 	);
+};
+
+UserUpdateModalRow.propTypes = {
+	user: PropTypes.object,
+	refetch: PropTypes.func,
 };
 
 export default UserUpdateModalRow;

@@ -16,7 +16,7 @@ const UserDistrictAndUpazila = () => {
 	});
 
 	const { districts, upazilas } = data;
-	console.log(districts, upazilas);
+	// console.log(districts, upazilas);
 	return { districts, upazilas, isLoading };
 };
 

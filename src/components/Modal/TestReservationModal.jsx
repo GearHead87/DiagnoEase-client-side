@@ -19,6 +19,7 @@ const TestReservationModal = ({ setIsEditModalOpen, isOpen, app, refetch }) => {
 		const report = data.report;
 		const testResult = {
 			result: report,
+			resultDeliveryDate: new Date(),
 		};
 		console.log(report, testResult);
 		try {
