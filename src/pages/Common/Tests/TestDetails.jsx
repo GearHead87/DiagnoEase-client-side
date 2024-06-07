@@ -18,6 +18,7 @@ const TestDetails = () => {
 	const [discountedPrice, setDiscountedPrice] = useState(0);
 	const { user: currentUser } = useAuth();
 	const { id } = useParams();
+
 	const {
 		data: test = {},
 		isLoading,
@@ -26,6 +27,14 @@ const TestDetails = () => {
 		queryKey: ["test", id],
 		queryFn: async () => {
 			const { data } = await axiosSecure.get(`/test/${id}`);
+			return data;
+		},
+	});
+	const { data: user = {} } = useQuery({
+		queryKey: ["users", currentUser.email],
+		queryFn: async () => {
+			const { data } = await axiosSecure(`/user/${currentUser.email}`);
+			// console.log(data);
 			return data;
 		},
 	});
@@ -117,8 +126,7 @@ const TestDetails = () => {
 										...test,
 									},
 									user: {
-										name: currentUser.displayName,
-										email: currentUser.email,
+										...user
 									},
 									result: "",
 									status: "pending",
