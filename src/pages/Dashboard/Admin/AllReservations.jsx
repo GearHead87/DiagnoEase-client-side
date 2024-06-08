@@ -3,8 +3,10 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { Link } from "react-router-dom";
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 
+
 const AllReservations = () => {
 	const axiosSecure = useAxiosSecure();
+
 	const {
 		data: tests = [],
 		isLoading,
@@ -80,6 +82,7 @@ const AllReservations = () => {
 					</tbody>
 				</table>
 			</div>
+			
 		</div>
 	);
 };

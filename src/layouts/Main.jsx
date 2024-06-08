@@ -27,6 +27,7 @@ const Main = () => {
 	return (
 		<div>
 			<Nav />
+			{/* <Navbar /> */}
 			<div className="pt-24 max-w-screen-xl mx-auto min-h-[calc(100vh-197px)]">
 				<Outlet />
 			</div>
