@@ -4,6 +4,7 @@ import useAuth from "../hooks/useAuth";
 
 import Lottie from "lottie-react";
 import loadingAnimation from "./loadingSpinner.json";
+import SideNav from "../components/dashboard/Sidebar/SideNav";
 const style = {
 	display: "flex",
 	justifyContent: "center",
@@ -25,6 +26,7 @@ const DashboardLayout = () => {
 		<div className="relative min-h-screen md:flex">
 			{/* Sidebar */}
 			<Sidebar />
+			{/* <SideNav></SideNav> */}
 
 			{/* Outlet --> Dynamic content */}
 			<div className="flex-1 md:ml-64">

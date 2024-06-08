@@ -5,6 +5,7 @@ import Footer from "../components/Shared/Footer/Footer";
 import Lottie from "lottie-react";
 import loadingAnimation from "./loadingSpinner.json";
 import useAuth from "../hooks/useAuth";
+import Nav from "../components/Shared/Navbar/Nav";
 const style = {
 	display: "flex",
 	justifyContent: "center",
@@ -25,7 +26,7 @@ const Main = () => {
 
 	return (
 		<div>
-			<Navbar />
+			<Nav />
 			<div className="pt-24 max-w-screen-xl mx-auto min-h-[calc(100vh-197px)]">
 				<Outlet />
 			</div>

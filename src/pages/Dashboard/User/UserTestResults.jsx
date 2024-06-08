@@ -18,7 +18,7 @@ const UserTestResults = () => {
 		},
 	});
 	if (isLoading) {
-		return LoadingSpinner;
+		return <LoadingSpinner/>;
 	}
 	return (
 		<div>
