@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const TestCard = ({ test }) => {
 	return (
@@ -45,6 +46,10 @@ const TestCard = ({ test }) => {
 			</div>
 		</div>
 	);
+};
+
+TestCard.propTypes = {
+	test: PropTypes.object,
 };
 
 export default TestCard;
