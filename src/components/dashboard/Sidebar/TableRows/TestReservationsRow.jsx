@@ -25,7 +25,7 @@ const TestReservationsRow = ({ app, refetch }) => {
 						refetch();
 						Swal.fire({
 							title: "Deleted!",
-							text: "Appointments has been cancled.",
+							text: "Appointments has been canceled.",
 							icon: "success",
 						});
 					}

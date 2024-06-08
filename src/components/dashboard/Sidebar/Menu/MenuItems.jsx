@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 const MenuItems = ({label, address, icon: Icon}) => {
     return (
@@ -27,5 +28,12 @@ const MenuItems = ({label, address, icon: Icon}) => {
         </div>
     );
 };
+
+MenuItems.propTypes = {
+	label: PropTypes.string,
+	address: PropTypes.string,
+	icon: PropTypes.elementType,
+}
+
 
 export default MenuItems;

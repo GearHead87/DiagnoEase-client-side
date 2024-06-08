@@ -34,7 +34,7 @@ const AddBanner = () => {
 			if (result.insertedId) {
 				toast.success("Banner Uploaded Successfully");
 				setIsLoading(false);
-				navigate('/dashboard/all-banners')
+				navigate("/dashboard/all-banners");
 				reset();
 			}
 		} catch (err) {
@@ -134,6 +134,15 @@ const AddBanner = () => {
 					<input
 						{...register("discountRate", {
 							required: "Discount Rate is required",
+							valueAsNumber: true,
+							min: {
+								value: 0,
+								message: "Discount Rate cannot be less than 0",
+							},
+							max: {
+								value: 100,
+								message: "Discount Rate cannot be more than 100",
+							},
 						})}
 						type="number"
 						id="discountRate"

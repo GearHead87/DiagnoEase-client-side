@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import toast from "react-hot-toast";
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
+import Swal from "sweetalert2";
 
 const AllBanners = () => {
 	const axiosSecure = useAxiosSecure();
@@ -30,6 +31,35 @@ const AllBanners = () => {
 		}
 	};
 
+	const handleBannerDelete = async (id) => {
+		Swal.fire({
+			title: "Are you sure?",
+			text: "You won't be able to revert this!",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Yes, delete it!",
+		}).then(async (result) => {
+			if (result.isConfirmed) {
+				try {
+					const { data } = await axiosSecure.delete(`/banner/${id}`);
+					console.log(data);
+					if (data.deletedCount > 0) {
+						refetch();
+						Swal.fire({
+							title: "Deleted!",
+							text: "Banner has been Deleted.",
+							icon: "success",
+						});
+					}
+				} catch (err) {
+					console.log(err);
+				}
+			}
+		});
+	};
+
 	if (isLoading) {
 		<LoadingSpinner />;
 	}
@@ -56,6 +86,9 @@ const AllBanners = () => {
 							</th>
 							<th scope="col" className="px-6 py-3">
 								Status
+							</th>
+							<th scope="col" className="px-6 py-3">
+								<span className="sr-only">Update</span>
 							</th>
 							<th scope="col" className="px-6 py-3">
 								<span className="sr-only">Update</span>
@@ -93,6 +126,15 @@ const AllBanners = () => {
 										type="button"
 									>
 										Make As Active
+									</button>
+								</td>
+								<td className="px-6 py-4">
+									<button
+										onClick={() => handleBannerDelete(banner._id)}
+										className={`block text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800`}
+										type="button"
+									>
+										Delete
 									</button>
 								</td>
 							</tr>
