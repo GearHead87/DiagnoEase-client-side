@@ -29,19 +29,21 @@ const AllTests = () => {
 			cancelButtonColor: "#d33",
 			confirmButtonText: "Yes, delete it!",
 		}).then(async (result) => {
-			try {
-				const { data } = await axiosSecure.delete(`/test/${id}`);
-				console.log(data);
-				if (data.deletedCount > 0) {
-					refetch();
-					Swal.fire({
-						title: "Deleted!",
-						text: "Your test has been deleted.",
-						icon: "success",
-					});
+			if (result.isConfirmed) {
+				try {
+					const { data } = await axiosSecure.delete(`/test/${id}`);
+					console.log(data);
+					if (data.deletedCount > 0) {
+						refetch();
+						Swal.fire({
+							title: "Deleted!",
+							text: "Your test has been deleted.",
+							icon: "success",
+						});
+					}
+				} catch (err) {
+					console.log(err);
 				}
-			} catch (err) {
-				console.log(err);
 			}
 		});
 	};
