@@ -18,6 +18,7 @@ import AdminStatistics from "../pages/Dashboard/Admin/AdminStatistics";
 import Tests from "../pages/Common/Tests/Tests";
 import TestDetails from "../pages/Common/Tests/TestDetails";
 import TestReservations from "../pages/Dashboard/Admin/TestReservations";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
 	{
@@ -42,7 +43,11 @@ export const router = createBrowserRouter([
 			},
 			{
 				path: "test/:id",
-				element: <TestDetails></TestDetails>,
+				element: (
+					<PrivateRoute>
+						<TestDetails></TestDetails>
+					</PrivateRoute>
+				),
 			},
 		],
 	},

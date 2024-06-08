@@ -10,9 +10,9 @@ const Tests = () => {
 		isLoading,
 		refetch,
 	} = useQuery({
-		queryKey: ["tests"],
+		queryKey: ["Available-tests"],
 		queryFn: async () => {
-			const { data } = await axiosCommon("/tests");
+			const { data } = await axiosCommon("/available-tests");
 			return data;
 		},
 	});

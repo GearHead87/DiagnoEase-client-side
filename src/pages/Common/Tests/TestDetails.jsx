@@ -77,6 +77,9 @@ const TestDetails = () => {
 						<p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
 							{test.description}
 						</p>
+						<p className="mb-3 font-semibold text-gray-700 dark:text-gray-400">
+							Appointment Date: {new Date(test.date).toLocaleDateString()}
+						</p>
 						<div className="my-4">
 							<span className="bg-blue-100 text-blue-800 text-base font-semibold px-2.5 py-1 rounded dark:bg-blue-200 dark:text-blue-800">
 								{discountedPrice

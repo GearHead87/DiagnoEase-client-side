@@ -8,7 +8,7 @@ const AllReservations = () => {
 	const {
 		data: tests = [],
 		isLoading,
-		refetch,
+		// refetch,
 	} = useQuery({
 		queryKey: ["tests"],
 		queryFn: async () => {
