@@ -19,6 +19,9 @@ import Tests from "../pages/Common/Tests/Tests";
 import TestDetails from "../pages/Common/Tests/TestDetails";
 import TestReservations from "../pages/Dashboard/Admin/TestReservations";
 import PrivateRoute from "./PrivateRoute";
+import BMICalculator from "../pages/Common/Extra/BMICalculator";
+import AboutUs from "../pages/Common/Extra/AboutUs";
+import ContactUs from "../pages/Common/Extra/ContactUs";
 
 export const router = createBrowserRouter([
 	{
@@ -48,6 +51,18 @@ export const router = createBrowserRouter([
 						<TestDetails></TestDetails>
 					</PrivateRoute>
 				),
+			},
+			{
+				path: "bmi-calculator",
+				element: <BMICalculator></BMICalculator>,
+			},
+			{
+				path: "about-us",
+				element: <AboutUs></AboutUs>,
+			},
+			{
+				path: "contact-us",
+				element: <ContactUs></ContactUs>,
 			},
 		],
 	},
