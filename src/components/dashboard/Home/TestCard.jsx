@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 const TestCard = ({ test }) => {
 	return (
 		<div>
-			<div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+			<div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mx-auto">
 				<div className="h-56">
 					<img
 						className="rounded-t-lg object-cover w-full h-full"
@@ -17,6 +17,9 @@ const TestCard = ({ test }) => {
 						<h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
 							{test.name}
 						</h5>
+					</p>
+					<p className="mb-3 font-semibold text-gray-700 dark:text-gray-400">
+						Appointment Date: {new Date(test.date).toLocaleDateString()}
 					</p>
 					<p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
 						{test.description}

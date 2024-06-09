@@ -6,7 +6,7 @@ import LoadingSpinner from "../../Shared/LoadingSpinner";
 import { useState, useEffect, useRef } from "react";
 
 const Sidebar = () => {
-	const { role, isLoading } = useRole();
+	const { role, status, isLoading } = useRole();
 	const [isActive, setActive] = useState(false);
 	const sidebarRef = useRef(null);
 
@@ -33,6 +33,12 @@ const Sidebar = () => {
 				<LoadingSpinner />
 			</div>
 		);
+	}
+
+	if (status === "blocked") {
+		return <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 text-center md:text-5xl lg:text-6xl dark:text-white">
+			Blocked user Cannot Access dashboard
+		</h1>;
 	}
 
 	return (

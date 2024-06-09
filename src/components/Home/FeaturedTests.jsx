@@ -19,7 +19,7 @@ const FeaturedTests = () => {
 	return (
 		<>
         <h2 className="text-4xl text-center my-10 font-extrabold dark:text-white">Our Most Popular Tests</h2>
-			<div className="grid grid-cols-1 lg:grid-cols-3">
+			<div className="grid grid-cols-1 lg:grid-cols-3 mx-auto">
 				{tests.map((test) => (
 					<TestCard key={test._id} test={test}></TestCard>
 				))}

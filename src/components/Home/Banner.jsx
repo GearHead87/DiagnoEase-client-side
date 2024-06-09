@@ -19,13 +19,13 @@ const Banner = () => {
 	return (
 		<>
 			<section
-				className={`bg-center bg-no-repeat  bg-gray-500 bg-blend-multiply`}
+				className={`bg-cover bg-center bg-no-repeat  bg-gray-500 bg-blend-multiply`}
 				style={{
 					backgroundImage: `url(${banner.image})`,
-					backgroundSize: "100%",
+					// backgroundSize: "100%",
 				}}
 			>
-				<div className="flex justify-between px-4 mx-auto max-w-screen-xl py-24 lg:py-56">
+				<div className="flex flex-col lg:flex-row justify-between px-4 mx-auto max-w-screen-xl py-10 lg:py-56">
 					<div>
 						<h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white text-center md:text-5xl lg:text-6xl">
 							{banner.title}
@@ -33,7 +33,7 @@ const Banner = () => {
 						<p className="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-8 lg:px-16">
 							{banner.text}
 						</p>
-						<div className="flex justify-center relative">
+						<div className="flex items-center justify-center">
 							<Link
 								to={"/tests"}
 								className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900"
@@ -57,9 +57,9 @@ const Banner = () => {
 							</Link>
 						</div>
 					</div>
-					<div className="absolute right-60">
-                        <p className="text-white font-medium text-2xl mb-4 text-center ">Apply Coupon Code</p>
-						<p className="inline-flex justify-center text-3xl font-bold items-center py-3 px-5  text-center text-white rounded-lg border border-white ">
+					<div className="lg:absolute lg:right-60 mt-4 flex flex-col items-center justify-center">
+                        <p className="text-white font-medium text-xl lg:text-2xl mb-4 text-center ">Apply Coupon Code</p>
+						<p className="inline-flex justify-center  lg:text-3xl font-bold items-center py-3 px-5  text-center text-white rounded-lg border border-white ">
 							{banner.couponCode}
 						</p>
 					</div>

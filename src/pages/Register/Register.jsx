@@ -4,17 +4,28 @@ import { bloodGroup } from "./bloodGroupData";
 import DistrictAndUpazila from "./DistrictAndUpazila";
 import { imageUpload } from "../../api/utils";
 import useAxiosCommon from "../../hooks/useAxiosCommon";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import UserDistrictAndUpazila from "../../hooks/UserDistrictAndUpazila";
 import LoadingSpinner from "../../components/Shared/LoadingSpinner";
+import { useState } from "react";
+import { TbFidgetSpinner } from "react-icons/tb";
+import toast from "react-hot-toast";
 const Register = () => {
-	const { register, handleSubmit } = useForm();
+	const {
+		register,
+		handleSubmit,
+		watch,
+		formState: { errors },
+	} = useForm();
 	const { createUser, updateUserProfile } = useAuth();
 	const { districts, upazilas, isLoading } = DistrictAndUpazila();
+	const [loading, setLoading] = useState(false);
+	const navigate = useNavigate();
 	UserDistrictAndUpazila();
 	const axiosCommon = useAxiosCommon();
 
 	const onSubmit = async (data) => {
+		setLoading(true);
 		const name = data.name;
 		const email = data.email;
 		const password = data.password;
@@ -35,7 +46,7 @@ const Register = () => {
 		};
 
 		try {
-			const { result } = await createUser(email, password);
+			const result = await createUser(email, password);
 			console.log(result);
 			const avatar = await imageUpload(image);
 			userData["avatar"] = avatar;
@@ -43,7 +54,14 @@ const Register = () => {
 			await updateUserProfile(name, avatar);
 			const { data } = await axiosCommon.post("/user", userData);
 			console.log(data);
+			if (data.insertedId) {
+				setLoading(false);
+				toast.success(`Welcome ${result.user.displayName}`);
+				navigate("/");
+			}
 		} catch (err) {
+			setLoading(false);
+			toast.error(err.message);
 			console.log(err);
 		}
 	};
@@ -61,13 +79,16 @@ const Register = () => {
 						Your email
 					</label>
 					<input
-						{...register("email")}
+						{...register("email", { required: "Email is required" })}
 						type="email"
 						id="email"
 						className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-						placeholder="name@flowbite.com"
-						required
+						placeholder="email"
+						// required
 					/>
+					{errors.email && (
+						<p className="text-red-500 text-xs mt-1">{errors.email.message}</p>
+					)}
 				</div>
 				<div className="mb-5">
 					<label
@@ -77,13 +98,16 @@ const Register = () => {
 						Your name
 					</label>
 					<input
-						{...register("name")}
+						{...register("name", { required: "Name is required" })}
 						type="text"
 						id="name"
 						className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 						placeholder="name"
-						required
+						// required
 					/>
+					{errors.name && (
+						<p className="text-red-500 text-xs mt-1">{errors.name.message}</p>
+					)}
 				</div>
 				<div className="mb-5">
 					<label
@@ -93,12 +117,16 @@ const Register = () => {
 						Upload file
 					</label>
 					<input
-						{...register("image")}
+						{...register("image", { required: "Image is required" })}
 						className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
 						aria-describedby="user_avatar_help"
 						id="user_avatar"
 						type="file"
+						// required
 					></input>
+					{errors.image && (
+						<p className="text-red-500 text-xs mt-1">{errors.image.message}</p>
+					)}
 				</div>
 				<div className="mb-5">
 					<label
@@ -108,7 +136,7 @@ const Register = () => {
 						Select your blood group
 					</label>
 					<select
-						{...register("bloodGroup")}
+						{...register("bloodGroup", { required: "Blood Group is required" })}
 						id="blood-group"
 						className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 					>
@@ -118,6 +146,11 @@ const Register = () => {
 							</option>
 						))}
 					</select>
+					{errors.bloodGroup && (
+						<p className="text-red-500 text-xs mt-1">
+							{errors.bloodGroup.message}
+						</p>
+					)}
 				</div>
 				<div className="mb-5">
 					<label
@@ -127,7 +160,7 @@ const Register = () => {
 						Select your District
 					</label>
 					<select
-						{...register("district")}
+						{...register("district", { required: "District is required" })}
 						id="district"
 						className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 					>
@@ -137,6 +170,11 @@ const Register = () => {
 							</option>
 						))}
 					</select>
+					{errors.district && (
+						<p className="text-red-500 text-xs mt-1">
+							{errors.district.message}
+						</p>
+					)}
 				</div>
 				<div className="mb-5">
 					<label
@@ -146,7 +184,7 @@ const Register = () => {
 						Select your Upazila
 					</label>
 					<select
-						{...register("upazila")}
+						{...register("upazila", { required: "Upazila is required" })}
 						id="upazila"
 						className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 					>
@@ -156,6 +194,11 @@ const Register = () => {
 							</option>
 						))}
 					</select>
+					{errors.upazila && (
+						<p className="text-red-500 text-xs mt-1">
+							{errors.upazila.message}
+						</p>
+					)}
 				</div>
 				<div className="mb-5">
 					<label
@@ -165,12 +208,17 @@ const Register = () => {
 						Your password
 					</label>
 					<input
-						{...register("password")}
+						{...register("password", { required: "Password is required" })}
 						type="password"
 						id="password"
 						className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-						required
+						// required
 					/>
+					{errors.password && (
+						<p className="text-red-500 text-xs mt-1">
+							{errors.password.message}
+						</p>
+					)}
 				</div>
 				<div className="mb-5">
 					<label
@@ -180,19 +228,32 @@ const Register = () => {
 						Confirm Password
 					</label>
 					<input
-						// {...register("password")}
+						{...register("confirmPassword", {
+							required: "Please confirm your password",
+							validate: (value) =>
+								value === watch("password") || "Passwords do not match",
+						})}
 						type="password"
 						id="confirm-password"
 						className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-						required
+						// required
 					/>
+					{errors.confirmPassword && (
+						<p className="text-red-500 text-xs mt-1">
+							{errors.confirmPassword.message}
+						</p>
+					)}
 				</div>
 
 				<button
 					type="submit"
 					className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
 				>
-					Register
+					{loading ? (
+						<TbFidgetSpinner className="animate-spin m-auto" />
+					) : (
+						"Register"
+					)}
 				</button>
 				<div className="text-sm font-medium text-gray-500 dark:text-gray-300 mt-4">
 					Already Have an Account?{" "}

@@ -9,14 +9,23 @@ import { useState } from "react";
 import { Field, Input, Label } from "@headlessui/react";
 import clsx from "clsx";
 import toast from "react-hot-toast";
+// import useRole from "../../../hooks/UseRole";
+import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
+import useAxiosCommon from "../../../hooks/useAxiosCommon";
+
+import { Banner } from "flowbite-react";
+import { HiX } from "react-icons/hi";
+import { MdAnnouncement } from "react-icons/md";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 const TestDetails = () => {
 	const axiosSecure = useAxiosSecure();
+	const axiosCommon = useAxiosCommon();
 	const [isOpen, setIsOpen] = useState(false);
+	const [appliedCoupon, setAppliedCoupon] = useState(false);
 	const [discountedPrice, setDiscountedPrice] = useState(0);
-	const { user: currentUser } = useAuth();
+	const { user: currentUser, loading } = useAuth();
 	const { id } = useParams();
 
 	const {
@@ -30,14 +39,26 @@ const TestDetails = () => {
 			return data;
 		},
 	});
-	const { data: user = {} } = useQuery({
+	const { data: user = {}, isLoading: userLoading } = useQuery({
 		queryKey: ["users", currentUser.email],
+		enabled: !loading,
 		queryFn: async () => {
 			const { data } = await axiosSecure(`/user/${currentUser.email}`);
 			// console.log(data);
 			return data;
 		},
 	});
+
+	const { data: banner = {}, isLoading } = useQuery({
+		queryKey: ["Active-banner"],
+		queryFn: async () => {
+			const { data } = await axiosCommon.get("/active-banner");
+			return data;
+		},
+	});
+	if (isLoading && loading && userLoading) {
+		return <LoadingSpinner />;
+	}
 
 	const closeModal = () => {
 		setIsOpen(false);
@@ -46,18 +67,43 @@ const TestDetails = () => {
 		e.preventDefault();
 		const form = e.target;
 		const coupon = form.couponCode.value;
-		const discount_percentage = 20 / 100;
+		if (appliedCoupon) {
+			return toast.error("Coupon Already Applied");
+		}
+		const discount_percentage = banner.discountRate / 100;
 		const original_price = test.price;
-		if (coupon === "NEW20") {
+		if (coupon === banner.couponCode) {
 			const discounted_price = original_price * (1 - discount_percentage);
 			setDiscountedPrice(discounted_price);
 			test.price = discounted_price;
+			toast.success("Coupon Applied");
+			setAppliedCoupon(true);
+		} else {
+			toast.error("Invalid Coupon Code");
 		}
 		console.log(test);
 	};
 
 	return (
 		<div>
+			<Banner>
+				<div className="flex w-full justify-between border-b border-gray-200 bg-gray-100 p-4 dark:border-gray-600 dark:bg-gray-700">
+					<div className="mx-auto flex items-center">
+						<p className="flex items-center text-base font-normal text-gray-500 dark:text-gray-400">
+							<MdAnnouncement className="mr-4 h-4 w-4" />
+							<span className="[&_p]:inline">
+								{`${banner.title}. Apply Coupon Code "${banner.couponCode}" to get %${banner.discountRate} discount`}
+							</span>
+						</p>
+					</div>
+					<Banner.CollapseButton
+						color="gray"
+						className="border-0 bg-transparent text-gray-500 dark:text-gray-400"
+					>
+						<HiX className="h-4 w-4" />
+					</Banner.CollapseButton>
+				</div>
+			</Banner>
 			<div className="flex flex-col md:flex-row bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
 				<div>
 					<img
@@ -111,7 +157,9 @@ const TestDetails = () => {
 								</Field>
 								<button
 									className={`inline-flex items-center mt-8 ml-4 px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ${
-										test.slots < 1 ? "opacity-50 cursor-not-allowed" : ""
+										test.slots < 1 || user.status === "blocked"
+											? "opacity-50 cursor-not-allowed"
+											: ""
 									}`}
 								>
 									Apply Now
@@ -144,11 +192,16 @@ const TestDetails = () => {
 								if (test.slots < 1) {
 									return toast.error("No slots Available");
 								}
+								if (user.status === "blocked") {
+									return toast.error("Blocked User");
+								}
 								setIsOpen(true);
 							}}
 							disabled={test.slots < 1 ? true : false}
 							className={`inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ${
-								test.slots < 1 ? "opacity-50 cursor-not-allowed" : ""
+								test.slots < 1 || user.status === "blocked"
+									? "opacity-50 cursor-not-allowed"
+									: ""
 							}`}
 						>
 							Book Now

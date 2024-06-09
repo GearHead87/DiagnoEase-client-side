@@ -27,7 +27,7 @@ const AuthProvider = ({ children }) => {
 	};
 
 	const signIn = (email, password) => {
-		// setLoading(true);
+		setLoading(true);
 		return signInWithEmailAndPassword(auth, email, password);
 	};
 
@@ -58,25 +58,29 @@ const AuthProvider = ({ children }) => {
 			const userEmail = currentUser?.email || user?.email;
 			const loggedUser = { email: userEmail };
 			setUser(currentUser);
-			// console.log("current user", currentUser);
-			setLoading(false);
+			console.log("current user", currentUser);
+			// setLoading(false);
 			// if User Exists
 			if (currentUser) {
 				axios
-					.post(`${import.meta.env.VITE_API_URL}/jwt`, loggedUser, {
-						withCredentials: true,
-					})
+					.post(`${import.meta.env.VITE_API_URL}/jwt`, loggedUser)
 					.then((res) => {
-						// console.log("token response", res.data);
+						console.log(res.data.token);
+						if (res.data.token) {
+							localStorage.setItem("access-token", res.data.token);
+							setLoading(false);
+						}
 					});
 			} else {
-				axios
-					.post(`${import.meta.env.VITE_API_URL}/logout`, loggedUser, {
-						withCredentials: true,
-					})
-					.then((res) => {
-						// console.log(res.data);
-					});
+				localStorage.removeItem("access-token");
+				setLoading(false);
+				// axios
+				// 	.post(`${import.meta.env.VITE_API_URL}/logout`, loggedUser, {
+				// 		withCredentials: true,
+				// 	})
+				// 	.then((res) => {
+				// 		// console.log(res.data);
+				// 	});
 			}
 		});
 		return () => {
