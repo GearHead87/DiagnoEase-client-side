@@ -11,13 +11,13 @@ export const handleUserTestReportPdf = (test) => {
 	doc.text("Accurate | Caring | Instant", 20, 27);
 
 	doc.setFontSize(10);
-	doc.text("105-108, SMART VISION COMPLEX, HEALTHCARE ROAD,", 20, 35);
-	doc.text("OPPOSITE HEALTHCARE COMPLEX, MUMBAI - 689578", 20, 41);
+	doc.text("1240, Zakir Hossain Road, East Nasirabad", 20, 35);
+	doc.text("Chittagong, Chittagong.", 20, 41);
 
 	// Adding contact information
 	doc.setFontSize(10);
-	doc.text(" 9123456789 / 8912345678", 150, 20);
-	doc.text(" smartpatholab@gmail.com", 150, 25);
+	doc.text(" +8801707856409", 150, 20);
+	doc.text(" hosan@DiagnoEase.com", 150, 25);
 
 	// Break Line
 	doc.setLineWidth(1);
@@ -50,20 +50,22 @@ export const handleUserTestReportPdf = (test) => {
 	doc.text(
 		`Report delivery date: ${new Date(
 			test.resultDeliveryDate
-		).toLocaleDateString()}`
+		).toLocaleDateString()}`,
+		20,
+		110
 	);
 	doc.text(`Report:`, 20, 115);
 	doc.text(`${test.result}`, 25, 120);
-	// doc.save(`User Test Report`);
+	doc.save(`${test.user.name}'s Test Report on ${test.testData.name}`);
 
 	// doc.autoPrint();
 	// Open PDF in new window
-	const string = doc.output("bloburl");
-	const iframe = `<iframe width='100%' height='100%' src='${string}'></iframe>`;
-	const x = window.open();
-	x.document.open();
-	x.document.write(iframe);
-	x.document.close();
+	// 	const string = doc.output("bloburl");
+	// 	const iframe = `<iframe width='100%' height='100%' src='${string}'></iframe>`;
+	// 	const x = window.open();
+	// 	x.document.open();
+	// 	x.document.write(iframe);
+	// 	x.document.close();
 };
 
 export const handleUserAppointmentsPdf = (data, user) => {
@@ -76,13 +78,13 @@ export const handleUserAppointmentsPdf = (data, user) => {
 	doc.text("Accurate | Caring | Instant", 20, 27);
 
 	doc.setFontSize(10);
-	doc.text("105-108, SMART VISION COMPLEX, HEALTHCARE ROAD,", 20, 35);
-	doc.text("OPPOSITE HEALTHCARE COMPLEX, MUMBAI - 689578", 20, 41);
+	doc.text("1240, Zakir Hossain Road, East Nasirabad", 20, 35);
+	doc.text("Chittagong, Chittagong.", 20, 41);
 
 	// Adding contact information
 	doc.setFontSize(10);
-	doc.text(" 9123456789 / 8912345678", 150, 20);
-	doc.text(" smartpatholab@gmail.com", 150, 25);
+	doc.text(" +8801707856409", 150, 20);
+	doc.text(" hosan@DiagnoEase.com", 150, 25);
 
 	// Break Line
 	doc.setLineWidth(1);
@@ -133,7 +135,6 @@ export const handleUserAppointmentsPdf = (data, user) => {
 				20,
 				yAxis()
 			);
-
 		}
 		doc.setLineWidth(0.5);
 		doc.line(20, yAxis(), 185, y);

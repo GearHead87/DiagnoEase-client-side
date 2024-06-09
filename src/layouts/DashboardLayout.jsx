@@ -4,7 +4,7 @@ import useAuth from "../hooks/useAuth";
 
 import Lottie from "lottie-react";
 import loadingAnimation from "./loadingSpinner.json";
-import SideNav from "../components/dashboard/Sidebar/SideNav";
+// import SideNav from "../components/dashboard/Sidebar/SideNav";
 const style = {
 	display: "flex",
 	justifyContent: "center",

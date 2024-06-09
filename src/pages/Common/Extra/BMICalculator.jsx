@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 const BMICalculator = () => {
 	const [weight, setWeight] = useState("");
@@ -32,7 +32,9 @@ const BMICalculator = () => {
 
 	return (
 		<div className="bmi-calculator">
-            <h1 className="mb-4 text-4xl text-center font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">BMI Calculator</h1>
+			<h1 className="mb-4 text-4xl text-center font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
+				BMI Calculator
+			</h1>
 			<form onSubmit={calculateBMI} className="max-w-sm mx-auto">
 				{/* <div>
 					<label htmlFor="weight">Weight (kg): </label>
@@ -87,8 +89,12 @@ const BMICalculator = () => {
 			</form>
 			{bmi && (
 				<div className="text-center my-4">
-                    <h1 className="mb-4 text-3xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl lg:text-5xl dark:text-white">Your BMI: {bmi}</h1>
-                    <h1 className="mb-4 text-3xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl lg:text-5xl dark:text-white">{message}</h1>
+					<h1 className="mb-4 text-3xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl lg:text-5xl dark:text-white">
+						Your BMI: {bmi}
+					</h1>
+					<h1 className="mb-4 text-3xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl lg:text-5xl dark:text-white">
+						{message}
+					</h1>
 					<p></p>
 				</div>
 			)}

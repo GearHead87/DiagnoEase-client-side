@@ -9,7 +9,7 @@ const UserTestResults = () => {
 	const {
 		data: tests = [],
 		isLoading,
-		refetch,
+		// refetch,
 	} = useQuery({
 		queryKey: ["result-tests"],
 		queryFn: async () => {

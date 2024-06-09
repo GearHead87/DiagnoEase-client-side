@@ -23,7 +23,7 @@ const AllTestUpdateModal = ({ setIsEditModalOpen, isOpen, test, refetch }) => {
 		register,
 		handleSubmit,
 		formState: { errors },
-		reset,
+		// reset,
 	} = useForm();
 
 	const onSubmit = async (data) => {

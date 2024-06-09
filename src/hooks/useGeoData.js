@@ -4,7 +4,7 @@ import useAxiosCommon from "./useAxiosCommon";
 export const GeoData = async () => {
 	const axiosCommon = useAxiosCommon();
 	const { data = {}, isLoading } = useQuery({
-		queryKey: ["district-upzila-hooks", keyValue],
+		queryKey: ["district-upzila-hooks"],
 		queryFn: async () => {
 			const districtsResponse = await axiosCommon.get("/districts");
 			const upazilasResponse = await axiosCommon.get("/upazilas");
