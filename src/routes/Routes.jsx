@@ -22,10 +22,12 @@ import PrivateRoute from "./PrivateRoute";
 import BMICalculator from "../pages/Common/Extra/BMICalculator";
 import AboutUs from "../pages/Common/Extra/AboutUs";
 import ContactUs from "../pages/Common/Extra/ContactUs";
+import ErrorPage from "../pages/Common/Extra/ErrorPage";
 
 export const router = createBrowserRouter([
 	{
 		path: "/",
+		errorElement: <ErrorPage></ErrorPage>,
 		element: <Main></Main>,
 		children: [
 			{
@@ -68,6 +70,7 @@ export const router = createBrowserRouter([
 	},
 	{
 		path: "dashboard",
+		errorElement: <ErrorPage></ErrorPage>,
 		element: <DashboardLayout></DashboardLayout>,
 		children: [
 			// user Routes
