@@ -1,5 +1,6 @@
-
-import { FaUserCog } from 'react-icons/fa'
+import { TbReport } from "react-icons/tb";
+import { TbReportAnalytics } from "react-icons/tb";
+import { FaUserEdit } from "react-icons/fa";
 import MenuItems from "./MenuItems";
 
 const UserMenu = () => {
@@ -8,19 +9,19 @@ const UserMenu = () => {
 			<MenuItems
 				address="user-appointments"
 				label="My Upcoming Appointments"
-                icon={FaUserCog}
+                icon={TbReport}
 			></MenuItems>
 
 			<MenuItems
 				address="user-test-results"
 				label="Test results"
-                icon={FaUserCog}
+                icon={TbReportAnalytics}
 			></MenuItems>
             
 			<MenuItems
 				address="user-profile"
 				label="My Profile"
-                icon={FaUserCog}
+                icon={FaUserEdit}
 			></MenuItems>
 
 		</>

@@ -1,6 +1,10 @@
 // import { Link } from "react-router-dom";
 import MenuItems from "./MenuItems";
-import { FaUserCog } from "react-icons/fa";
+import { FaUserEdit, FaChartLine, FaUserLock } from "react-icons/fa";
+import { GrDocumentTest, GrTest } from "react-icons/gr";
+import { TbReportSearch } from "react-icons/tb";
+import { LuImagePlus } from "react-icons/lu";
+import { PiFlagBannerFoldFill } from "react-icons/pi";
 
 const AdminMenu = () => {
 	return (
@@ -8,42 +12,42 @@ const AdminMenu = () => {
 			<MenuItems
 				address="statistics"
 				label="Statistics"
-				icon={FaUserCog}
+				icon={FaChartLine}
 			></MenuItems>
 			<MenuItems
 				address="manage-users"
 				label="All Users"
-				icon={FaUserCog}
+				icon={FaUserLock}
 			></MenuItems>
 			<MenuItems
 				address="add-a-test"
 				label="Add a test"
-				icon={FaUserCog}
+				icon={GrDocumentTest}
 			></MenuItems>
 			<MenuItems
 				address="all-tests"
 				label="All tests"
-				icon={FaUserCog}
+				icon={GrTest}
 			></MenuItems>
 			<MenuItems
 				address="all-reservations"
 				label="Reservation"
-				icon={FaUserCog}
+				icon={TbReportSearch}
 			></MenuItems>
 			<MenuItems
 				address="add-banner"
 				label="Add banner"
-				icon={FaUserCog}
+				icon={LuImagePlus}
 			></MenuItems>
 			<MenuItems
 				address="all-banners"
 				label="All Banners"
-				icon={FaUserCog}
+				icon={PiFlagBannerFoldFill}
 			></MenuItems>
 			<MenuItems
 				address="user-profile"
 				label="My Profile"
-				icon={FaUserCog}
+				icon={FaUserEdit}
 			></MenuItems>
 		</>
 	);

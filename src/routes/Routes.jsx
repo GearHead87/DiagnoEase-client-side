@@ -77,79 +77,107 @@ export const router = createBrowserRouter([
 			{
 				// index: true,
 				path: "user-profile",
-				element: <UserProfile></UserProfile>,
+				element: (
+					<PrivateRoute>
+						<UserProfile></UserProfile>
+					</PrivateRoute>
+				),
 			},
 			{
 				path: "user-appointments",
-				element: <UserAppointments></UserAppointments>,
+				element: (
+					<PrivateRoute>
+						<UserAppointments></UserAppointments>
+					</PrivateRoute>
+				),
 			},
 			{
 				path: "user-test-results",
-				element: <UserTestResults></UserTestResults>,
+				element: (
+					<PrivateRoute>
+						<UserTestResults></UserTestResults>
+					</PrivateRoute>
+				),
 			},
 			// Admin Routes
 			{
 				path: "manage-users",
 				element: (
-					<AdminRoute>
-						<ManageUsers></ManageUsers>
-					</AdminRoute>
+					<PrivateRoute>
+						<AdminRoute>
+							<ManageUsers></ManageUsers>
+						</AdminRoute>
+					</PrivateRoute>
 				),
 			},
 			{
 				path: "add-a-test",
 				element: (
-					<AdminRoute>
-						<AddATest></AddATest>
-					</AdminRoute>
+					<PrivateRoute>
+						<AdminRoute>
+							<AddATest></AddATest>
+						</AdminRoute>
+					</PrivateRoute>
 				),
 			},
 			{
 				path: "all-tests",
 				element: (
-					<AdminRoute>
-						<AllTests></AllTests>
-					</AdminRoute>
+					<PrivateRoute>
+						<AdminRoute>
+							<AllTests></AllTests>
+						</AdminRoute>
+					</PrivateRoute>
 				),
 			},
 			{
 				path: "all-reservations",
 				element: (
-					<AdminRoute>
-						<AllReservations></AllReservations>
-					</AdminRoute>
+					<PrivateRoute>
+						<AdminRoute>
+							<AllReservations></AllReservations>
+						</AdminRoute>
+					</PrivateRoute>
 				),
 			},
 			{
 				path: "all-reservations/:id",
 				element: (
-					<AdminRoute>
-						<TestReservations></TestReservations>
-					</AdminRoute>
+					<PrivateRoute>
+						<AdminRoute>
+							<TestReservations></TestReservations>
+						</AdminRoute>
+					</PrivateRoute>
 				),
 			},
 			{
 				path: "add-banner",
 				element: (
-					<AdminRoute>
-						<AddBanner></AddBanner>
-					</AdminRoute>
+					<PrivateRoute>
+						<AdminRoute>
+							<AddBanner></AddBanner>
+						</AdminRoute>
+					</PrivateRoute>
 				),
 			},
 			{
 				path: "all-banners",
 				element: (
-					<AdminRoute>
-						<AllBanners></AllBanners>
-					</AdminRoute>
+					<PrivateRoute>
+						<AdminRoute>
+							<AllBanners></AllBanners>
+						</AdminRoute>
+					</PrivateRoute>
 				),
 			},
 			{
 				path: "statistics",
 				element: (
-					<AdminRoute>
-						<AdminStatistics></AdminStatistics>
-					</AdminRoute>
+					<PrivateRoute>
+						<AdminRoute>
+							<AdminStatistics></AdminStatistics>
+						</AdminRoute>
+					</PrivateRoute>
 				),
 			},
 		],

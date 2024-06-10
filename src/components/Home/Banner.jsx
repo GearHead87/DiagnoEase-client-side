@@ -14,7 +14,7 @@ const Banner = () => {
 	});
 	// console.log(banner);
 	if (isLoading) {
-		<LoadingSpinner />;
+		return <LoadingSpinner />;
 	}
 	return (
 		<>

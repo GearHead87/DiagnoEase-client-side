@@ -23,7 +23,7 @@ const Recommendation = () => {
 	});
 	// console.log(recs);
 	if (isLoading) {
-		return <LoadingSpinner></LoadingSpinner>;
+		return <LoadingSpinner />;
 	}
 	return (
 		<div>
@@ -50,7 +50,7 @@ const Recommendation = () => {
 							key={rec.id}
 							className={`bg-center bg-no-repeat py-10 bg-gray-500 bg-blend-multiply bg-cover`}
 							style={{
-								backgroundImage: `url(${rec.image})`
+								backgroundImage: `url(${rec.image})`,
 							}}
 						>
 							{/* <img
