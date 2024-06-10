@@ -31,7 +31,7 @@ const AboutUs = () => {
 				<h2 className="text-3xl font-semibold mb-4">Our Mission</h2>
 				<p className="text-gray-700 leading-loose">
 					Our mission is to deliver exceptional services and solutions that
-					exceed our clients' expectations. We are dedicated to innovation,
+					exceed our clients expectations. We are dedicated to innovation,
 					quality, and customer satisfaction. Our team works tirelessly to stay
 					ahead of the curve and bring you the best in the industry.
 				</p>

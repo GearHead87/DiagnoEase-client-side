@@ -22,7 +22,7 @@ const UserAppointments = () => {
 		},
 	});
 	if (isLoading) {
-		return LoadingSpinner;
+		return <LoadingSpinner/>;
 	}
 	const handleTestDelete = async (id) => {
 		Swal.fire({

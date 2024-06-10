@@ -140,10 +140,12 @@ export const handleUserAppointmentsPdf = (data, user) => {
 		doc.line(20, yAxis(), 185, y);
 	});
 
-	const string = doc.output("bloburl");
-	const iframe = `<iframe width='100%' height='100%' src='${string}'></iframe>`;
-	const x = window.open();
-	x.document.open();
-	x.document.write(iframe);
-	x.document.close();
+	doc.save(`${user.name}'s Appointments Summary`);
+
+// 	const string = doc.output("bloburl");
+// 	const iframe = `<iframe width='100%' height='100%' src='${string}'></iframe>`;
+// 	const x = window.open();
+// 	x.document.open();
+// 	x.document.write(iframe);
+// 	x.document.close();
 };

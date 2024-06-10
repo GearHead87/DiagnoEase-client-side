@@ -11,7 +11,7 @@ const Login = () => {
 	const [isloading, SetIsLoading] = useState(false);
 	const navigate = useNavigate();
 	const location = useLocation();
-	const from = location?.state || "/";
+	const from = location?.state || "/dashboard";
 
 	const onSubmit = async (data) => {
 		SetIsLoading(true);

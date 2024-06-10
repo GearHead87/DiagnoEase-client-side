@@ -40,6 +40,11 @@ const AdminMenu = () => {
 				label="All Banners"
 				icon={FaUserCog}
 			></MenuItems>
+			<MenuItems
+				address="user-profile"
+				label="My Profile"
+				icon={FaUserCog}
+			></MenuItems>
 		</>
 	);
 };

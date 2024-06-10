@@ -30,7 +30,7 @@ const TestDetails = () => {
 
 	const {
 		data: test = {},
-		// isLoading,
+		isLoading: testLoading,
 		refetch,
 	} = useQuery({
 		queryKey: ["test", id],
@@ -56,10 +56,6 @@ const TestDetails = () => {
 			return data;
 		},
 	});
-	if (isLoading && loading && userLoading) {
-		return <LoadingSpinner />;
-	}
-
 	const closeModal = () => {
 		setIsOpen(false);
 	};
@@ -83,6 +79,10 @@ const TestDetails = () => {
 		}
 		console.log(test);
 	};
+
+	if (isLoading || loading || userLoading || testLoading) {
+		return <LoadingSpinner />;
+	}
 
 	return (
 		<div>

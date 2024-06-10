@@ -19,7 +19,7 @@ const AllReservations = () => {
 		},
 	});
 	if (isLoading) {
-		<LoadingSpinner />;
+		return <LoadingSpinner />;
 	}
 	return (
 		<div>

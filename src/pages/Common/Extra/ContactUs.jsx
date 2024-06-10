@@ -11,7 +11,7 @@ const ContactUs = () => {
 			<div className="container mx-auto px-4 py-12">
 				<div className="flex flex-col lg:flex-row justify-between">
 					<div className="lg:w-1/2 bg-white p-8 shadow-lg rounded-lg">
-						<h2 className="text-2xl font-semibold mb-6 text-blue-800">
+						<h2 className="text-2xl font-bold mb-6 text-blue-700">
 							Get In Touch
 						</h2>
 						<form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -65,7 +65,7 @@ const ContactUs = () => {
 							</div>
 							<button
 								type="submit"
-								className="w-full py-2 px-4 bg-blue-500 text-white font-semibold rounded hover:bg-blue-700"
+								className="w-full py-2 px-4 bg-blue-700 text-white font-semibold rounded hover:bg-blue-500"
 							>
 								Send Message
 							</button>

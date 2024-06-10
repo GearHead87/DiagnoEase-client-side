@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import { handleUserAppointmentsPdf } from "../../PDF/PdfPrintUtils";
+import LoadingSpinner from "../../../Shared/LoadingSpinner";
 
 const UserUpdateModalRow = ({ user, refetch }) => {
 	const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -20,6 +21,10 @@ const UserUpdateModalRow = ({ user, refetch }) => {
 		console.log(data);
 		handleUserAppointmentsPdf(data, user);
 	};
+
+	if(isLoading){
+		return <LoadingSpinner/>
+	}
 	return (
 		<>
 			<tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">

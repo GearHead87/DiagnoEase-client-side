@@ -18,7 +18,7 @@ const ManageUsers = () => {
 		},
 	});
     if(isLoading){
-        <LoadingSpinner/>
+        return <LoadingSpinner/>
     }
 	// console.log(users);
 	return (

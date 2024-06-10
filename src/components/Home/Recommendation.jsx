@@ -17,11 +17,11 @@ const Recommendation = () => {
 		queryKey: ["Recommedation"],
 		queryFn: async () => {
 			const { data } = await axiosCommon.get("/recommendations");
-			console.log(data);
+			// console.log(data);
 			return data;
 		},
 	});
-	console.log(recs);
+	// console.log(recs);
 	if (isLoading) {
 		return <LoadingSpinner></LoadingSpinner>;
 	}
@@ -48,10 +48,9 @@ const Recommendation = () => {
 					<SwiperSlide key={rec._id}>
 						<div
 							key={rec.id}
-							className={`bg-center bg-no-repeat py-10 bg-gray-500 bg-blend-multiply`}
+							className={`bg-center bg-no-repeat py-10 bg-gray-500 bg-blend-multiply bg-cover`}
 							style={{
-								backgroundImage: `url(${rec.image})`,
-								backgroundSize: "100%",
+								backgroundImage: `url(${rec.image})`
 							}}
 						>
 							{/* <img

@@ -14,7 +14,7 @@ const AdminStatistics = () => {
 		},
 	});
 	if (isLoading) {
-		<LoadingSpinner />;
+		return <LoadingSpinner />;
 	}
 	// console.log(adminStat.deliverySatusChartData);
 	return (

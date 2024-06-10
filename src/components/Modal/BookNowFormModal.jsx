@@ -52,10 +52,10 @@ const BookNowFormModal = ({ closeModal, isOpen, bookingInfo, refetch }) => {
 										<p className="text-sm text-gray-500">Test Name: {bookingInfo.testData.name}</p>
 									</div>
 									<div className="mt-2">
-										<p className="text-sm text-gray-500">Location: {}</p>
+										<p className="text-sm text-gray-500">Name: {bookingInfo.user.name}</p>
 									</div>
 									<div className="mt-2">
-										<p className="text-sm text-gray-500">Guest: {}</p>
+										<p className="text-sm text-gray-500">Email: {bookingInfo.user.email}</p>
 									</div>
 
 									<div className="mt-2">

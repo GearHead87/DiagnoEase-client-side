@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 import {
@@ -8,14 +7,12 @@ import {
 	DialogPanel,
 	DialogTitle,
 } from "@headlessui/react";
-import { Fragment} from "react";
+import { Fragment } from "react";
 import { bloodGroup } from "../../pages/Register/bloodGroupData";
 import LoadingSpinner from "../Shared/LoadingSpinner";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import UserDistrictAndUpazila from "../../hooks/UserDistrictAndUpazila";
 import toast from "react-hot-toast";
-
-
 
 const UserUpdateModal = ({ setIsEditModalOpen, isOpen, user, refetch }) => {
 	const axiosSecure = useAxiosSecure();
@@ -29,14 +26,14 @@ const UserUpdateModal = ({ setIsEditModalOpen, isOpen, user, refetch }) => {
 			status,
 			role,
 		};
-        delete userData._id;
+		delete userData._id;
 		try {
 			const { data } = await axiosSecure.patch(`/user/${user?._id}`, userData);
 			console.log(data);
-            if(data.modifiedCount>0){
-                refetch();
-                toast.success("Successfully Updated")
-            }
+			if (data.modifiedCount > 0) {
+				refetch();
+				toast.success("Successfully Updated");
+			}
 		} catch (err) {
 			console.log(err);
 		}
@@ -89,6 +86,11 @@ const UserUpdateModal = ({ setIsEditModalOpen, isOpen, user, refetch }) => {
 										onSubmit={handleSubmit(onSubmit)}
 										className="max-w-sm mx-auto"
 									>
+										<img
+											className="mx-auto w-24 h-24 mb-3 rounded-full shadow-lg"
+											src={user.avatar}
+											alt="Bonnie image"
+										/>
 										<div className="mb-5">
 											<label
 												htmlFor="email"
@@ -287,6 +289,8 @@ const UserUpdateModal = ({ setIsEditModalOpen, isOpen, user, refetch }) => {
 UserUpdateModal.propTypes = {
 	setIsEditModalOpen: PropTypes.func,
 	isOpen: PropTypes.bool,
+	user: PropTypes.object,
+	refetch: PropTypes.func
 };
 
 export default UserUpdateModal;

@@ -6,7 +6,7 @@ import LoadingSpinner from "../../Shared/LoadingSpinner";
 import { useState, useEffect, useRef } from "react";
 
 const Sidebar = () => {
-	const { role, status, isLoading } = useRole();
+	const { role, isLoading } = useRole();
 	const [isActive, setActive] = useState(false);
 	const sidebarRef = useRef(null);
 
@@ -35,11 +35,13 @@ const Sidebar = () => {
 		);
 	}
 
-	if (status === "blocked") {
-		return <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 text-center md:text-5xl lg:text-6xl dark:text-white">
-			Blocked user Cannot Access dashboard
-		</h1>;
-	}
+	// if (status === "blocked") {
+	// 	return (
+	// 		<h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 text-center md:text-5xl lg:text-6xl dark:text-white">
+	// 			Blocked user Cannot Access dashboard
+	// 		</h1>
+	// 	);
+	// }
 
 	return (
 		<div>
@@ -79,9 +81,9 @@ const Sidebar = () => {
 							className="h-6 me-3 sm:h-7"
 							alt="Flowbite Logo"
 						/> */}
-						<span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
-							DiagnoEase
-						</span>
+						<p className="self-center text-lg md:text-2xl font-bold  whitespace-nowrap dark:text-white">
+							Diagno<span className="text-blue-700">Ease</span>
+						</p>
 					</Link>
 					<ul className="space-y-2 font-medium">
 						{role === "user" && <UserMenu />}
