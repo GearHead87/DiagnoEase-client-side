@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-       - name: Create .env.local
+      - name: Create .env.local
         run: |
           echo "VITE_APIKEY=${{ secrets.VITE_APIKEY }}" >> .env.local
           echo "VITE_AUTHDOMAIN=${{ secrets.VITE_AUTHDOMAIN }}" >> .env.local
