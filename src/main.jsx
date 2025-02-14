@@ -6,6 +6,7 @@ import AuthProvider from "./providers/AuthProvider.jsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
 import { HelmetProvider } from "react-helmet-async";
+import VGChatWidget from "./components/VGChatWidget";
 // import 'flowbite';
 
 const queryClient = new QueryClient();
@@ -17,6 +18,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 				<AuthProvider>
 					<RouterProvider router={router} />
 					<Toaster />
+					<VGChatWidget />
 				</AuthProvider>
 			</QueryClientProvider>
 		</HelmetProvider>
