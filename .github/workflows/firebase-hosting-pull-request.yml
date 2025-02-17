@@ -24,6 +24,10 @@ jobs:
           echo "VITE_IMGBB_API_KEY=${{ secrets.VITE_IMGBB_API_KEY }}" >> .env.local
           echo "VITE_STRIPE_PUBLISHABLE_KEY=${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY }}" >> .env.local
           echo "VITE_API_URL=${{ secrets.VITE_API_URL }}" >> .env.local
+          echo "VITE_CHAT_AGENT_ID=${{ secrets.VITE_CHAT_AGENT_ID }}" >> .env.local
+          echo "VITE_CHAT_REGION=${{ secrets.VITE_CHAT_REGION }}" >> .env.local
+          echo "VITE_VAPI_API_KEY=${{ secrets.VITE_VAPI_API_KEY }}" >> .env.local
+          echo "VITE_VAPI_ASSISTANT_ID=${{ secrets.VITE_VAPI_ASSISTANT_ID }}" >> .env.local
       - run: yarn install && yarn build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
