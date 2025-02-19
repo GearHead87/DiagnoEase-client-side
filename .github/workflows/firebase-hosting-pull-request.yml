@@ -13,6 +13,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Create .env.local
+        run: |
+          echo "VITE_APIKEY=${{ secrets.VITE_APIKEY }}" >> .env.local
+          echo "VITE_AUTHDOMAIN=${{ secrets.VITE_AUTHDOMAIN }}" >> .env.local
+          echo "VITE_PROJECTID=${{ secrets.VITE_PROJECTID }}" >> .env.local
+          echo "VITE_STORAGEBUCKET=${{ secrets.VITE_STORAGEBUCKET }}" >> .env.local
+          echo "VITE_MESSAGINGSENDERID=${{ secrets.VITE_MESSAGINGSENDERID }}" >> .env.local
+          echo "VITE_APPID=${{ secrets.VITE_APPID }}" >> .env.local
+          echo "VITE_IMGBB_API_KEY=${{ secrets.VITE_IMGBB_API_KEY }}" >> .env.local
+          echo "VITE_STRIPE_PUBLISHABLE_KEY=${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY }}" >> .env.local
+          echo "VITE_API_URL=${{ secrets.VITE_API_URL }}" >> .env.local
       - run: yarn install && yarn build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
